@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <div th:replace="index.html :: dependencies"></div>
+  <nav th:replace="index.html :: header"> </nav>
+  <div class="container d-flex justify-content-center container-content">
+    <form class="w-50" th:object="${user}" method="post" th:action="@{/registration}">
+      <h4>Реєстрація</h4>
+      <div th:if="${result != null}" class="form-group">
+        <h6>Некоретно введені дані: </h6>
+        <ul>
+          <th:block th:object="${result}">
+            <li th:each="item : ${result.getAllErrors()}" th:text="${item.getDefaultMessage()}">Item description here...</li>
+          </th:block>
+        </ul>
+      </div>
+      <div class="form-group input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+        </div>
+        <input th:field="*{firstName}" name="" class="form-control" placeholder="Ім'я" type="text">
+      </div> <!-- form-group// -->
+      <div class="form-group input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+        </div>
+        <input th:field="*{lastName}" name="" class="form-control" placeholder="Прізвище" type="text">
+      </div> <!-- form-group// -->
+      <div class="form-group input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+        </div>
+        <input th:field="*{email}" name="" class="form-control" placeholder="Email" type="email">
+      </div> <!-- form-group// -->
+      <div class="form-group input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+        </div>
+        <input th:field="*{phone}" name="" class="form-control" placeholder="Номер телефону" type="text">
+      </div> <!-- form-group// -->
+      <div class="form-group input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+        </div>
+        <input th:field="*{password}" class="form-control" placeholder="Пароль" type="password">
+      </div> <!-- form-group// -->
+      <div class="form-group input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+        </div>
+        <input th:field="*{matchingPassword}" class="form-control" placeholder="Повторіть пароль" type="password">
+      </div> <!-- form-group// -->
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block">Створити профіль</button>
+      </div> <!-- form-group// -->
+      <input type="hidden"
+             th:name="${_csrf.parameterName}"
+             th:value="${_csrf.token}"/>
+      <p class="text-center">Зареєстровані? <a th:href="@{/?openedLogin=true}">Увійти</a></p>
+    </form>
+  </div>
+  <footer th:replace="index.html :: footer"></footer>
+</body>
+</html>

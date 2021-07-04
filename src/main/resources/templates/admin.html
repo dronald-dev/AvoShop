@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div th:replace="index.html :: dependencies"></div>
+<nav th:replace="index.html :: header"> </nav>
+<div class="container container-content">
+  <div class="row">
+    <div class="col">
+      <div class="row">
+        <form th:object="${category}" method="post" th:action="@{/category/add}">
+        <h4>Добавити категорію</h4>
+          <div class="form-group input-group">
+            <input th:field="*{name}" name="" class="form-control" placeholder="Назва" type="text">
+          </div> <!-- form-group// -->
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Добавити категорію</button>
+          </div> <!-- form-group// -->
+          <input type="hidden"
+                 th:name="${_csrf.parameterName}"
+                 th:value="${_csrf.token}"/>
+        </form>
+      </div>
+      <div class="row">
+        <form th:object="${category}" method="post" th:action="@{/category/remove}">
+          <h4>Видалити категорію</h4>
+          <select id="categorySelector" name="categorySelector" th:field="*{id}" class="form-control mb-3"  required="true" />
+          <option th:value="''" th:text="Select"></option>
+          <option th:each="i : ${categories}" th:value="${i.id}" th:text="${i.name}" th:selected="${i.id} == 1"></option>
+          </select>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Видалити категорію</button>
+          </div> <!-- form-group// -->
+          <input type="hidden"
+                 th:name="${_csrf.parameterName}"
+                 th:value="${_csrf.token}"/>
+        </form>
+      </div>
+    </div>
+    <div class="col">
+      <form th:object="${product}" method="post" th:action="@{/product/add}" enctype="multipart/form-data">
+        <h4>Добавити новий товар</h4>
+        <div class="form-group input-group">
+          <input th:field="*{name}" name="" class="form-control" placeholder="Модель" type="text">
+        </div> <!-- form-group// -->
+        <div class="form-group input-group">
+          <textarea th:field="*{description}" name="" cols="30" rows="2" placeholder="Опис" class="form-control"></textarea>
+        </div> <!-- form-group// -->
+        <div class="form-group input-group">
+          <input th:field="*{price}" name="" class="form-control" placeholder="Ціна" type="text">
+        </div> <!-- form-group// -->
+
+        <div class="form-group input-group">
+          <div class="custom-file">
+            <input th:field="*{image}" type="file" class="custom-file-input" id="inputGroupFile02">
+            <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Вибрати фото</label>
+          </div>
+        </div> <!-- form-group// -->
+        <div class="form-group input-group">
+          <div class="input-group-prepend">
+            <label class="input-group-text" for="statusid">Категорія</label>
+          </div>
+          <select id="statusid" name="statusid" th:field="*{categoryId}" class="form-control"  required="true" />
+          <option th:value="''" th:text="Select"></option>
+          <option th:each="i : ${categories}" th:value="${i.id}" th:text="${i.name}" th:selected="${i.id} == 1"></option>
+          </select>
+        </div> <!-- form-group// -->
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-block">Добавити товар</button>
+        </div> <!-- form-group// -->
+        <input type="hidden"
+               th:name="${_csrf.parameterName}"
+               th:value="${_csrf.token}"/>
+      </form>
+    </div>
+    <div class="col"></div>
+  </div>
+</div>
+<footer th:replace="index.html :: footer"></footer>
+</body>
+</html>
