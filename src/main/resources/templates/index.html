@@ -28,10 +28,7 @@
                 <div class="nav-item dropdown">
                     <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle">Взуття</a>
                     <div class="dropdown-menu">
-                        <a href="#" class="dropdown-item">Web Design</a>
-                        <a href="#" class="dropdown-item">Web Development</a>
-                        <a href="#" class="dropdown-item">Graphic Design</a>
-                        <a href="#" class="dropdown-item">Digital Marketing</a>
+                        <a th:each="i : ${categories}" th:href="'/category/' + ${i.id}" th:text="${i.name}" class="dropdown-item"></a>
                     </div>
                 </div>
                 <a href="#" class="nav-item nav-link">Доставка і оплата</a>
@@ -110,10 +107,10 @@
                     </p>
                     <div class="row">
                         <div class="col">
-                            <a href="#" class="btn btn-primary">Переглянути</a>
+                            <a th:href="'/product/' + ${product.id}" class="btn btn-primary">Переглянути</a>
                         </div>
                         <div class="col">
-                            <h5 th:text="${product.price.toString()}"></h5>
+                            <h5 th:text="${product.price}"></h5>
                         </div>
                     </div>
 

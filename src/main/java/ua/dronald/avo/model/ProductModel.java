@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
-import ua.dronald.avo.entity.Product;
 
 import java.math.BigDecimal;
 
@@ -21,22 +21,14 @@ public class ProductModel {
 
     private BigDecimal price;
 
+    private Long id;
 
     private Long categoryId;
 
+    @Nullable
     private MultipartFile image;
 
+    @Nullable
     private String strImage;
-
-    public static ProductModel createByProduct(Product product) {
-        return ProductModel.builder()
-                .name(product.getName())
-                .price(product.getPrice())
-                .categoryId(product.getCategory().getId())
-                .description(product.getDescription())
-                .strImage(product.getImage())
-                .image(null)
-                .build();
-    }
 
 }

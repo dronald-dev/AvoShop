@@ -1,17 +1,15 @@
 package ua.dronald.avo.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.util.StringUtils;
 import ua.dronald.avo.entity.Category;
 import ua.dronald.avo.model.CategoryModel;
 import ua.dronald.avo.model.ProductModel;
 import ua.dronald.avo.repository.CategoryRepository;
-import ua.dronald.avo.repository.ProductRepository;
+import ua.dronald.avo.service.CategoryService;
 import ua.dronald.avo.service.ProductService;
 
 import java.io.IOException;
@@ -19,33 +17,31 @@ import java.io.IOException;
 @Controller
 public class AdminController {
 
-    private final ProductRepository productRepository;
-
-    private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
 
     private final ProductService productService;
 
-    public AdminController(ProductRepository productRepository, CategoryRepository categoryRepository, ProductService productService) {
-        this.productRepository = productRepository;
-        this.categoryRepository = categoryRepository;
+    private final CategoryRepository categoryRepository;
+
+    public AdminController(CategoryService categoryService, ProductService productService, CategoryRepository categoryRepository) {
+        this.categoryService = categoryService;
         this.productService = productService;
+        this.categoryRepository = categoryRepository;
     }
 
     @GetMapping("/admin")
     public ModelAndView adminPanel() {
         return new ModelAndView("admin")
                 .addObject("product", new ProductModel())
-                .addObject("categories", categoryRepository.findAll())
+                .addObject("categories", categoryService.getAllCategories())
                 .addObject("category", new CategoryModel());
     }
 
     // TODO: Rewrite this code, make checking in another class
     @PostMapping("/product/add")
     public ModelAndView addProduct(@ModelAttribute("product") ProductModel productModel) {
-        if(categoryRepository.findById(productModel.getCategoryId()).isEmpty())
+        if(categoryService.getById(productModel.getCategoryId()).isEmpty())
             return new ModelAndView("/");
-        if(StringUtils.cleanPath(productModel.getImage().getOriginalFilename()).contains(".."))
-            return new ModelAndView("redirect:/admin");
         try {
             productService.save(productModel);
         } catch (IOException e) {

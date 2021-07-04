@@ -6,6 +6,4 @@ import ua.dronald.avo.entity.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
-    Category findByName(String name);
-    void deleteByName(String name);
 }
